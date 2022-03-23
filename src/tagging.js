@@ -1,5 +1,5 @@
 const fs = require('fs');
 
-console.log("Hello world");
+console.log("Hello Taehee");
 
 fs.mkdirSync("public");
