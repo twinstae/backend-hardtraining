@@ -12,23 +12,22 @@ let todoList = [
 // 데이터를 변경 mutation, (create update delete)
 // todo를 추가할 수 있다
 export function addTodo(todoList, newTodo){
-  todoList.push(newTodo);
-  return todoList;
+  // todoList.push(newTodo);
+  return [...todoList, newTodo];
 }
 // todoList.push({ content: "프리스타일 랩하기", completed: true, createdAt: Date.now() });
 
 
 // todo를 완료할 수 있다
 export function completeTodo(todoList, targetContent){
-  const targetTodo = todoList.find(todo => todo.content === targetContent);
-  targetTodo.completed = true;
+  // const targetTodo = todoList.find(todo => todo.content === targetContent);
+  // targetTodo.completed = true;
 
-  return todoList;
+  return todoList.map(todo => todo.content === targetContent ? {...todo, completed: true} : todo);
 }
 
 
 // todo를 삭제할 수 있다
 export function deleteTodo(todoList, targetContent){
-  const result = todoList.filter(todo => todo.content !== targetContent);
-  return result
+  return todoList.filter(todo => todo.content !== targetContent)
 }

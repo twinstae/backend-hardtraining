@@ -2,10 +2,9 @@ import { describe, it, expect } from "vitest";
 // 모듈... import, export
 import { addTodo, completeTodo, deleteTodo } from "./todolist.js";
 
-  // 데이터를 읽기, 질의 query (read)
-let todoList = [
-  { content: "일본 라면 먹기", completed: false, createdAt: 123 },
-];
+const TODO_1 = { content: "일본 라면 먹기", completed: false, createdAt: 123 };
+const TODO_2 = { content: "프리스타일 랩하기", completed: false, createdAt: 124 };
+// 데이터를 읽기, 질의 query (read)
 
 describe("todolist", ()=>{
   // 입력, 선행조건
@@ -15,33 +14,30 @@ describe("todolist", ()=>{
     // pagination
 
   // 데이터를 변경 mutation, (create update delete)
+  
   // todo를 추가할 수 있다
   it("addTodo에 todo를 넘기면 todoList에 todo가 추가된다", ()=>{
-    const result = addTodo(todoList, { content: "프리스타일 랩하기", completed: false, createdAt: 124 });
+    const result = addTodo([TODO_1], TODO_2);
 
-    expect(result).toStrictEqual([
-      { content: "일본 라면 먹기", completed: false, createdAt: 123 },
-      { content: "프리스타일 랩하기", completed: false, createdAt: 124 },
-    ]);
+    expect(result).toStrictEqual([TODO_1, TODO_2]);
   });
 
   // todo를 완료할 수 있다
   it("completeTodo에 content를 넘기면, 해당 content를 가진 todo의 completed가 true로 바뀐다", ()=>{
-    const result = completeTodo(todoList, "프리스타일 랩하기");
+    const result = completeTodo([TODO_1, TODO_2], TODO_2.content);
 
     expect(result).toStrictEqual([
-      { content: "일본 라면 먹기", completed: false, createdAt: 123 },
+      TODO_1,
       { content: "프리스타일 랩하기", completed: true, createdAt: 124 },
     ]);
   });
   
   // todo를 삭제할 수 있다
   it("completeTodo에 content를 넘기면, 해당 content를 가진 todo 객체가 사라진다.", ()=>{
-    const result = deleteTodo(todoList, "프리스타일 랩하기");
+    // 입력, before, given
+    const result = deleteTodo([TODO_1, TODO_2], TODO_2.content);
 
-    expect(result).toStrictEqual([
-      { content: "일본 라면 먹기", completed: false, createdAt: 123 }
-    ]);
+    // 결과, 출력, after, then
+    expect(result).toStrictEqual([TODO_1]);
   });
-  
 });
