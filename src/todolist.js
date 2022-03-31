@@ -29,5 +29,5 @@ export function completeTodo(todoList, targetContent){
 
 // todo를 삭제할 수 있다
 export function deleteTodo(todoList, targetContent){
-  return todoList.filter(todo => todo.content !== targetContent)
+  return todoList.filter(todo => todo.content !== targetContent);
 }
