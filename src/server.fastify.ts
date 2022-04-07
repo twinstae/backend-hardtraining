@@ -45,6 +45,8 @@ server.get('/todo-list', opts, async (request, reply) => {
 server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
   const newTodo = request.body;
   todoList = addTodo(todoList, newTodo);
+
+  reply.status(200);
   return { ok: true }
 });
 
@@ -52,6 +54,7 @@ server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
 server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
   const { targetContent } = request.params;
   todoList = deleteTodo(todoList, targetContent);
+  
   return { ok: true }
 });
 
@@ -65,10 +68,6 @@ server.patch<{ Params: { targetContent: string } }>('/todo-list/:targetContent',
 const start = async () => {
   try {
     await server.listen(3000)
-
-    const address = server.server.address()
-    const port = typeof address === 'string' ? address : address?.port
-
   } catch (err) {
     server.log.error(err)
     process.exit(1)
