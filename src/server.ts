@@ -1,64 +1,66 @@
-import Fastify, { RouteShorthandOptions } from 'fastify'
-import { addTodo, completeTodo, deleteTodo } from "./todoList.js";
+import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
+import { addTodo, deleteTodo, completeTodo } from './todoList';
+// require commonjs
+// import  esm
 
-const server = Fastify({ logger: true })
-
+const server: FastifyInstance = Fastify({ logger: true })
 const opts: RouteShorthandOptions = {
   schema: {
     response: {
       200: {
         type: 'object',
         properties: {
-          pong: {  type: 'string' }
+          todoList: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                content: { type: 'string' },
+                completed: { type: 'boolean' },
+                createdAt: { type: 'number' },
+              }
+            }
+          }
         }
       }
     }
   }
 }
 
-server.get('/ping', opts, async (request, reply) => {
-  return { pong: 'it worked!' }
-})
+let todoList = [{ content: "일본 라면 먹기", completed: false, createdAt: 123 }];
 
-let todoList: Todo[] = [
-  {
-    content: "일본 라면 먹기",
-    completed: false,
-    createdAt: Date.now()
-  },
-];
+// query, Read 읽기 요청!
+// get /todo-list 라는 요청이 들어오면
+// todoList 를 반환하는 route 를 만들어보세요!
+server.get('/todo-list', opts, async (request, reply) => {
+  return { todoList }
+});
 
-// 현재 투두 목록 가져오기
-server.get('/todos', async (request, reply) => {
-  return todoList;
-})
+// mutation, side effect, create/update/delete/ => CUD
+// http method
+// addTodo post
 
-// 투두 추가하기
-server.post<{ Body: Todo }>('/add-todo', {
-  schema: {
-    body: {
-      type: "object",
-      required: ["content", "completed", "createdAt"],
-      properties: {
-        content: { type: 'string' },
-        completed: { type: 'boolean' },
-        createdAt: { type: 'number' },
-      }
-    }
-  }
-}, async (request, reply) => {
-  const newTodo = request.body
+// ?name="taehee"&age=28 <- search params, query params
+// body json
+server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
+  const newTodo = request.body;
   todoList = addTodo(todoList, newTodo);
-  return { ok: true };
-})
+  return { ok: true }
+});
 
-// 투두 삭제하기
-// delete
-// url "/delete-todo/:todoContent" request.params.todoContent
+// deleteTodo delete
+server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
+  const { targetContent } = request.params;
+  todoList = deleteTodo(todoList, targetContent);
+  return { ok: true }
+});
 
-// 투두 완료하기
-// patch
-// url "/complete-todo/:todoContent" request.params.todoContent
+// completeTodo patch
+server.patch<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
+  const { targetContent } = request.params;
+  todoList = completeTodo(todoList, targetContent);
+  return { ok: true }
+});
 
 const start = async () => {
   try {
@@ -66,10 +68,11 @@ const start = async () => {
 
     const address = server.server.address()
     const port = typeof address === 'string' ? address : address?.port
-    console.log(`server is listening on http://localhost:${port}`)
+
   } catch (err) {
     server.log.error(err)
     process.exit(1)
   }
 }
-start()
+
+start();
