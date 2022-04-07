@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "tdd-practice",
   "version": "1.0.0",
   "main": "index.js",
