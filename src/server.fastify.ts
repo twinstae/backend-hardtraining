@@ -65,13 +65,6 @@ server.patch<{ Params: { targetContent: string } }>('/todo-list/:targetContent',
   return { ok: true }
 });
 
-const start = async () => {
-  try {
-    await server.listen(3000)
-  } catch (err) {
-    server.log.error(err)
-    process.exit(1)
-  }
-}
 
-start();
+
+export default server;

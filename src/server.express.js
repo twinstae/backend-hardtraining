@@ -6,7 +6,7 @@ const { addTodo, deleteTodo, completeTodo } = require('./todoList');
 let todoList = [{ content: "일본 라면 먹기", completed: false, createdAt: 123 }];
 
 app.use(express.json());
-// app.use(express.urlencoded( {extended : false } ));
+// app.use(express.urlencoded( { extended : false } ));
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
