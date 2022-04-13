@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 /*
 0. style loader와 css!
@@ -21,25 +21,44 @@ function TodoListItem({ completed, content }){
   )
 }
 
-export default function Hello() {
+
+export default function TodoList() {
+  // todoList의 상태
+  const initValue = ["벚꽃구경하기"];
+  const [todoList, setTodoList] = useState(initValue); // 서버 동기화되는 상태, 전역 상태, zustand
+  // 추가
+  const [todoInput, setTodoInput] = useState(""); // UI 상태, local, react-hook-form
+
+  const handleChange = (e)=>{
+    setTodoInput(e.target.value);
+  }
+  // 완료하기
+  // 삭제하기
+
   return (
     <section className="todoapp">
       <div>
         <header className="header">
           <h1>todos</h1>
-          <input
-            className="new-todo"
-            placeholder="What needs to be done?"
-            defaultValue=""
-          />
+          <form onSubmit={(event)=>{
+            event.preventDefault();
+
+            setTodoList([...todoList, todoInput]);
+            setTodoInput("");
+          }}>
+            <input
+              className="new-todo"
+              placeholder="What needs to be done?"
+              value={todoInput}
+              onChange={handleChange}
+            />
+          </form>
         </header>
         <section className="main">
           <input id="toggle-all" className="toggle-all" type="checkbox" />
           <label htmlFor="toggle-all" />
           <ul className="todo-list">
-            <TodoListItem content="탐정 토끼는 프리스타일 랩을 한다" completed={false} />
-            <TodoListItem content="금곰은 운동을 한다" completed={true} />
-            <TodoListItem content="핑구는 파스타를 먹는다" completed={false} />
+            {todoList.map(todo => <TodoListItem content={todo} completed={false} />)}
           </ul>
         </section>
         <footer className="footer">
