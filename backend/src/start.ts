@@ -1,3 +1,5 @@
+import server from './server.fastify';
+
 const start = async () => {
   try {
     await server.listen(3000)

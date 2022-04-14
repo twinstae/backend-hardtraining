@@ -33,6 +33,7 @@ let todoList = [{ content: "일본 라면 먹기", completed: false, createdAt: 
 // get /todo-list 라는 요청이 들어오면
 // todoList 를 반환하는 route 를 만들어보세요!
 server.get('/todo-list', opts, async (request, reply) => {
+  reply.status(200);
   return { todoList }
 });
 
@@ -46,7 +47,7 @@ server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
   const newTodo = request.body;
   todoList = addTodo(todoList, newTodo);
 
-  reply.status(200);
+  reply.status(201);
   return { ok: true }
 });
 
@@ -55,6 +56,7 @@ server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent'
   const { targetContent } = request.params;
   todoList = deleteTodo(todoList, targetContent);
   
+  reply.status(204);
   return { ok: true }
 });
 
@@ -62,9 +64,11 @@ server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent'
 server.patch<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
   const { targetContent } = request.params;
   todoList = completeTodo(todoList, targetContent);
+
+
+  reply.status(200);
   return { ok: true }
 });
-
 
 
 export default server;
