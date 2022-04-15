@@ -20,8 +20,7 @@ const opts: RouteShorthandOptions = {
             items: {
               type : 'object',
               properties: {
-                content:
-                {content : {type:'string'},
+                content : {type:'string'},
                 completed:{type : 'boolean'},
                 createdAt:{type : 'number'},
                 }
@@ -36,7 +35,7 @@ const opts: RouteShorthandOptions = {
       }
     }
   }
-}
+
 
 
 // 라우터 구현하기!
@@ -53,7 +52,7 @@ let todoList =[{ content: "일본 라면 먹기", completed: false, createdAt: 1
   // 왜 굳이 async 붙여주어야 하나요?
   server.get('/todo-list', opts, async (request, reply)=>{
     reply.status(200);
-    return { ok : true }
+    return { todoList }
   })
 
 
@@ -72,18 +71,15 @@ let todoList =[{ content: "일본 라면 먹기", completed: false, createdAt: 1
 // http method
 // addTodo post
 
-
-
-
 // 흐름을 통제하기 위해서 사용한다~
 // ?name="taehee"&age=28 <- search params, query params
 // body json
 server.post<{ Body: Todo }>('/todo-list', async (request, reply) => {
-    const newTodo = request.body;
-    todoList = addTodo(todoList, newTodo);
+  const newTodo = request.body;
+  todoList = addTodo(todoList, newTodo);
 
-    reply.status(201);
-    return { ok: true }
+  reply.status(201);
+  return { ok : true }
   });
 
   // deleteTodo delete
