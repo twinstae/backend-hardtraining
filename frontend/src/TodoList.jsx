@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import AddTodoForm from './AddTodoForm';
 /*
 0. style loader와 css!
 1. jsx => html 이랑 다른 점!
@@ -51,11 +51,7 @@ export default function TodoList() {
   ];
   const [todoList, setTodoList] = useState(initValue); // 서버 동기화되는 상태, 전역 상태, zustand
   // 추가
-  const [todoInput, setTodoInput] = useState(""); // UI 상태, local, react-hook-form
 
-  const handleChange = (e)=>{
-    setTodoInput(e.target.value);
-  }
   function addTodo(newContent){
     const newTodo =  {
       id: crypto.randomUUID(),
@@ -82,18 +78,7 @@ export default function TodoList() {
       <div>
         <header className="header">
           <h1>todos</h1>
-          <form onSubmit={(event)=>{
-            event.preventDefault();
-            addTodo(todoInput);
-            setTodoInput("");
-          }}>
-            <input
-              className="new-todo"
-              placeholder="What needs to be done?"
-              value={todoInput}
-              onChange={handleChange}
-            />
-          </form>
+          <AddTodoForm addTodo={addTodo} />
         </header>
         <section className="main">
           <input id="toggle-all" className="toggle-all" type="checkbox" />
