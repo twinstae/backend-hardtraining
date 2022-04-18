@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddTodoForm from './AddTodoForm';
+import TodoListItem from './TodoListItem';
 /*
 0. style loader와 css!
 1. jsx => html 이랑 다른 점!
@@ -8,26 +9,6 @@ import AddTodoForm from './AddTodoForm';
 4. 컴포넌트 분리 => props 넘기고 받기
 */
 
-function TodoListItem({ id, completed, content, deleteTodo, completeTodo }){
-  return (
-    <li className={completed ? "completed" : ""}>
-      <div className="view">
-        <input
-          className="toggle"
-          type="checkbox"
-          checked={completed}
-          onChange={(e) => {
-            completeTodo(id, e.target.checked);
-          }} />
-        <label>{content}</label>
-        <button className="destroy" onClick={(e) =>{
-          deleteTodo(id);
-        }}/>
-      </div>
-      <input className="edit" defaultValue={content} />
-    </li>
-  )
-}
 
 
 export default function TodoList() {
