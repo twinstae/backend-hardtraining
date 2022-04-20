@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import AddTodoForm from './AddTodoForm';
 import TodoListItem from './TodoListItem';
+import TodoCount from "./TodoCount";
+import ClearCompletedButton from './ClearCompletedButton';
+import useTodoList from './useTodoList';
 /*
 0. style loader와 css!
 1. jsx => html 이랑 다른 점!
@@ -9,51 +12,19 @@ import TodoListItem from './TodoListItem';
 4. 컴포넌트 분리 => props 넘기고 받기
 */
 
-
+// todoMVC => redux-toolkit, jotai, recoil, 'zustand'
 
 export default function TodoList() {
-  // Todo 객체는?
-  // id
-  // content
-  // completed
-
-  // todoList의 상태
-  const initValue = [
-    {
-      id: crypto.randomUUID(), // string
-      content: "벚꽃구경하기",
-      completed: false, // boolean
-    },
-    {
-      id: crypto.randomUUID(), // string
-      content: "토끼는 프리스타일을 한다",
-      completed: true, // boolean
-    }
-  ];
-  const [todoList, setTodoList] = useState(initValue); // 서버 동기화되는 상태, 전역 상태, zustand
-  // 추가
-
-  function addTodo(newContent){
-    const newTodo =  {
-      id: crypto.randomUUID(),
-      content: newContent,
-      completed: false,
-    };
-    setTodoList(old => [...old, newTodo]);
-  }
-  // 삭제하기
-  // 삭제할 친구만 filter 해서 setTodoList를 한다..
-  function deleteTodo(id){
-    setTodoList(old => old.filter((todo) => todo.id !== id));
-  }
-  // 완료하기
-  function completeTodo(id, checked){
-    setTodoList(old => old.map(todo => todo.id !== id ? todo : {
-      ...todo,
-      completed: checked,
-    }))
-  }
-
+  const {
+    todoList,
+    remainingCount,
+    completedCount,
+    addTodo,
+    deleteTodo,
+    completeTodo,
+    clearCompletedTodos,
+  } = useTodoList();
+  
   return (
     <section className="todoapp">
       <div>
@@ -71,12 +42,7 @@ export default function TodoList() {
           </ul>
         </section>
         <footer className="footer">
-          <span className="todo-count">
-            <strong>1</strong>
-            <span> </span>
-            <span>item</span>
-            <span> left</span>
-          </span>
+          <TodoCount todoCount={remainingCount} />
           <ul className="filters">
             <li>
               <a href="#/" className="selected">
@@ -96,7 +62,11 @@ export default function TodoList() {
               </a>
             </li>
           </ul>
-          <button className="clear-completed">Clear completed</button>
+          
+          <ClearCompletedButton
+            completedCount={completedCount}
+            clearCompletedTodos={clearCompletedTodos} />
+
         </footer>
       </div>
     </section>
