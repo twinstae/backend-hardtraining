@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 // 모듈... import, export
-import { addTodo, completeTodo, deleteTodo } from "./todolist.ts";
+import { addTodo, completeTodo, deleteTodo } from "./todoList.ts";
 
 const TODO_1 = { content: "일본 라면 먹기", completed: false, createdAt: 123 };
 const TODO_2 = { content: "프리스타일 랩하기", completed: false, createdAt: 124 };

@@ -61,11 +61,7 @@ server.post<{ Body: Todo }>("/todo-list", async (request, reply) => {
   return { ok: true };
 });
 
-const variable = "mimik";
-const string = `name is ${variable}`
-console.log(string) // mimik
 // deleteTodo delete
-
 server.delete<{ Params: { targetContent: string } }>(
   "/todo-list/:targetContent",
   async (request, reply) => {
@@ -85,6 +81,6 @@ server.patch<{Params : {targetContent : string}}>(
    reply.status(200)
    return {ok:true}
  }
-)
+);
 
 export default server;
