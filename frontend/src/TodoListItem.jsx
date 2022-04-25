@@ -1,6 +1,12 @@
 import React from "react";
+import useTodoListStore from './useTodoListStore';
+import shallow from 'zustand/shallow'
 
-function TodoListItem({ id, completed, content, deleteTodo, completeTodo }){
+function TodoListItem({ id, completed, content }){
+
+  const deleteTodo= useTodoListStore(state => state.deleteTodo);
+  const completeTodo= useTodoListStore(state => state.completeTodo);
+
   return (
     <li className={completed ? "completed" : ""}>
       <div className="view">

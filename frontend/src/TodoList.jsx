@@ -4,6 +4,7 @@ import TodoListItem from './TodoListItem';
 import TodoCount from "./TodoCount";
 import ClearCompletedButton from './ClearCompletedButton';
 import useTodoList from './useTodoList';
+import TodoListUl from './TodoListUl';
 /*
 0. style loader와 css!
 1. jsx => html 이랑 다른 점!
@@ -12,16 +13,12 @@ import useTodoList from './useTodoList';
 4. 컴포넌트 분리 => props 넘기고 받기
 */
 
-// todoMVC => redux-toolkit, jotai, recoil, 'zustand'
+// todoMVC => react-redux, redux-toolkit, jotai, recoil, 'zustand', react-query, react-hook-form
 
 export default function TodoList() {
   const {
-    todoList,
     remainingCount,
     completedCount,
-    addTodo,
-    deleteTodo,
-    completeTodo,
     clearCompletedTodos,
   } = useTodoList();
   
@@ -30,16 +27,12 @@ export default function TodoList() {
       <div>
         <header className="header">
           <h1>todos</h1>
-          <AddTodoForm addTodo={addTodo} />
+          <AddTodoForm />
         </header>
         <section className="main">
           <input id="toggle-all" className="toggle-all" type="checkbox" />
           <label htmlFor="toggle-all" />
-          <ul className="todo-list">
-            {todoList.map(todo =>
-              (<TodoListItem {...todo} deleteTodo={deleteTodo} completeTodo={completeTodo} />))
-            }
-          </ul>
+          <TodoListUl />
         </section>
         <footer className="footer">
           <TodoCount todoCount={remainingCount} />

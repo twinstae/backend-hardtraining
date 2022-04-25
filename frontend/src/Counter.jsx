@@ -1,29 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
+import create from 'zustand'
 
-export function useCounter(){
-  const [count, setCount] = useState(0);
-
-  // derived 파생 상태
-  const double = count * 2;
-
-  const increase = () => setCount(count + 1);
-  const decrease = () => setCount(count - 1);
-
-  return {
-    count,
-    double,
-    increase,
-    decrease,
-  }
-};
+// zustand
+const useStore = create(set => ({
+  count: 0,
+  increase: () => set(state => ({ count: state.count + 1 })),
+  decrease: () => set(state => ({ count: state.count - 1 })),
+}));
 
 function IncreaseButton(){
-  const { increase } = useContext(CounterContext);
+  const increase = useStore(state => state.increase);
   return <button onClick={increase}> +1 </button>
 }
 
 function Controls(){
-  const { decrease } = useContext(CounterContext);
+  const decrease = useStore(state => state.decrease);
   return (
     <>
       <IncreaseButton />
@@ -33,14 +24,13 @@ function Controls(){
 }
 
 const Counter = () => {
-  const { count, double } = useContext(CounterContext);
+  const count = useStore(state => state.count);
   return (
     <>
-      <h1>현재 카운트 : {count}, {double}</h1>
+      <h1>현재 카운트 : {count} </h1>
       <Controls />
     </>
   );
 }
-export const CounterContext = React.createContext(null);
 
 export default Counter;
