@@ -46,7 +46,7 @@ let todoList = [
 // 질문 생긴걸 언제 답변을 받을지? 얼마나 (시간을) 할애해서 어떤 방식으로 할 지?
 // server를 뭐라고 부르는지? 예시 : get은 http 메서드에요~
 // 왜 굳이 async 붙여주어야 하나요?
-server.get("/todo-list", opts, async (request, reply) => {
+ server.get("/todo-list", opts, async (request, reply) => {
   reply.status(200);
   return { todoList };
 });

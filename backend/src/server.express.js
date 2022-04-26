@@ -13,13 +13,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/todo-list', (req, res) => {
+  
+  
   res.status(200).send(todoList);
+  
 })
 
 app.post('/todo-list', (req, res) => {
   const newTodo = req.body;
   todoList = addTodo(todoList, newTodo);
-
+  console.log(res.body)
   res.status(201).send({ ok: true }); // 201 created
 })
 
