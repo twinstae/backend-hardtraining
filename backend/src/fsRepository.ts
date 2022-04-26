@@ -21,13 +21,10 @@ const fsRepository: TodoRepository = {
   }
 };
 
-fsRepository.saveAll([{ "content": "미믹의 레포지토리!", "completed": false, "createdAt": 123 }])
-  .then(() => {
-    return fsRepository.getAll();
-  })
-  .then((data) => console.log(data));
+// fsRepository.saveAll([{ "content": "미믹의 레포지토리!", "completed": false, "createdAt": 123 }])
+//   .then(() => {
+//     return fsRepository.getAll();
+//   })
+//   .then((data) => console.log(data));
 
-  // [{ "content": "탐정 토끼의 레포지토리!", "completed": false, "createdAt": 123 }]
-
-
-
+export default fsRepository;

@@ -1,7 +1,16 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { addTodo, deleteTodo, completeTodo } from './todoList';
+import fsRepository from './fsRepository';
 // require commonjs
 // import  esm
+
+const createSetTodoList = (repository: TodoRepository) => async (transform: (todoList: Todo[]) => Todo[] ): Promise<void> => {
+  let todoList = await repository.getAll(); // 1 똑같은
+  todoList = transform(todoList)    // 2 < 변하는 부분
+  await repository.saveAll(todoList);       // 3 똑같은
+}
+
+const setTodoList = createSetTodoList(fsRepository);
 
 const server: FastifyInstance = Fastify({ logger: true })
 const opts: RouteShorthandOptions = {
@@ -27,12 +36,13 @@ const opts: RouteShorthandOptions = {
   }
 }
 
-let todoList = [{ content: "일본 라면 먹기", completed: false, createdAt: 123 }];
-
 // query, Read 읽기 요청!
 // get /todo-list 라는 요청이 들어오면
 // todoList 를 반환하는 route 를 만들어보세요!
 server.get('/todo-list', opts, async (request, reply) => {
+  // fsRepository로 읽어온 todoList 배열(?)을 todoList변수에 담는다. 
+  const todoList = await repository.getAll();
+
   reply.status(200);
   return { todoList }
 });
@@ -45,8 +55,7 @@ server.get('/todo-list', opts, async (request, reply) => {
 // body json
 server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
   const newTodo = request.body;
-  todoList = addTodo(todoList, newTodo);
-
+  await setTodoList(old => addTodo(old, newTodo));
   reply.status(201);
   return { ok: true }
 });
@@ -54,8 +63,9 @@ server.post<{ Body : Todo }>('/todo-list', async (request, reply) => {
 // deleteTodo delete
 server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
   const { targetContent } = request.params;
-  todoList = deleteTodo(todoList, targetContent);
   
+  await setTodoList(old => deleteTodo(old, targetContent));
+
   reply.status(204);
   return { ok: true }
 });
@@ -63,12 +73,11 @@ server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent'
 // completeTodo patch
 server.patch<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
   const { targetContent } = request.params;
-  todoList = completeTodo(todoList, targetContent);
 
+  await setTodoList(old=> completeTodo(old, targetContent));
 
   reply.status(200);
   return { ok: true }
 });
-
 
 export default server;
