@@ -4,13 +4,15 @@ import fsRepository from './fsRepository';
 // require commonjs
 // import  esm
 
+const repository = fsRepository;
+
 const createSetTodoList = (repository: TodoRepository) => async (transform: (todoList: Todo[]) => Todo[] ): Promise<void> => {
   let todoList = await repository.getAll(); // 1 똑같은
   todoList = transform(todoList)    // 2 < 변하는 부분
   await repository.saveAll(todoList);       // 3 똑같은
 }
 
-const setTodoList = createSetTodoList(fsRepository);
+const setTodoList = createSetTodoList(repository);
 
 const server: FastifyInstance = Fastify({ logger: true })
 const opts: RouteShorthandOptions = {
