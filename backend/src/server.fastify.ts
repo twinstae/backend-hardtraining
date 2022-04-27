@@ -83,4 +83,20 @@ server.patch<{Params : {targetContent : string}}>(
  }
 );
 
+async function get() {
+  const response = await server.inject({ 
+    method: "GET", 
+    url: "/todo-list"
+  });
+}
+
+
+server.listen(3000,(err, address)=> {
+  if (err) {
+    server.log.error(err)
+    process.exit(1)
+  }
+const respond = get()
+console.log(respond)
+})
 export default server;
