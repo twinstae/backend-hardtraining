@@ -1,6 +1,5 @@
 import React from "react";
 import useTodoListStore from './useTodoListStore';
-import shallow from 'zustand/shallow'
 
 function TodoListItem({ id, completed, content }){
 

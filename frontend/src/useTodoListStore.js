@@ -21,21 +21,26 @@ const useTodoListStore = create(set => ({
       todoList: [...old.todoList, newTodo]
     };
   }),
-  deleteTodo:(id)=>set((old) => {
+  deleteTodo:(id) => set((old) => {
   
     return {
       todoList: old.todoList.filter((todo)=>todo.id!==id)
     }
   }),
   completeTodo: (id, checked) => set((old) => {
-    
     return {
       todoList: old.todoList.map(todo => todo.id !== id ? todo : {
         ...todo,
         completed: checked,
       })
     }
+  }),
+  clearCompletedTodos: () => set(old => {
+    return {
+      todoList: old.todoList.filter(todo => todo.completed === false)
+    }
   })
+  
 }));
 
   // // 완료되지 않은 할일의 개수????
@@ -48,5 +53,13 @@ const useTodoListStore = create(set => ({
   // }
   // // 완료된 todo가 없으면... clear 버튼이 안 보여야 함
   // const completedCount = todoList.length - remainingCount;
+
+export const useRemainingCount = ()=>{
+  return useTodoListStore(state=>state.todoList.filter((todo)=> todo.completed === false).length)
+}
+
+export const useCompletedCount = ()=>{
+  return useTodoListStore(state=>state.todoList.filter((todo)=> todo.completed === true).length)
+}
 
 export default useTodoListStore;

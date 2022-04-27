@@ -16,12 +16,7 @@ import TodoListUl from './TodoListUl';
 // todoMVC => react-redux, redux-toolkit, jotai, recoil, 'zustand', react-query, react-hook-form
 
 export default function TodoList() {
-  const {
-    remainingCount,
-    completedCount,
-    clearCompletedTodos,
-  } = useTodoList();
-  
+
   return (
     <section className="todoapp">
       <div>
@@ -35,7 +30,7 @@ export default function TodoList() {
           <TodoListUl />
         </section>
         <footer className="footer">
-          <TodoCount todoCount={remainingCount} />
+          <TodoCount />
           <ul className="filters">
             <li>
               <a href="#/" className="selected">
@@ -56,10 +51,7 @@ export default function TodoList() {
             </li>
           </ul>
           
-          <ClearCompletedButton
-            completedCount={completedCount}
-            clearCompletedTodos={clearCompletedTodos} />
-
+          <ClearCompletedButton />
         </footer>
       </div>
     </section>

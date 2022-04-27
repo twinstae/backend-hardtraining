@@ -1,9 +1,12 @@
 import React from 'react'
+import useTodoListStore, { useRemainingCount } from './useTodoListStore';
 
-const TodoCount = ({todoCount}) => {
+const TodoCount = () => {
   // 완료되지 않은 todo의 개수
   // 0개이거나 여러 개면 -> items
   // 1개인 경우에만 -> item 단수
+
+  const todoCount = useRemainingCount();
   
   return (
     <span className="todo-count">

@@ -15,7 +15,6 @@ function useTodoList(){
     },
   ];
   const [todoList, setTodoList] = useState(initValue); // 서버 동기화되는 상태, 전역 상태, zustand
-  
   // 추가
   function addTodo(newContent){
     const newTodo =  {
@@ -40,14 +39,14 @@ function useTodoList(){
     }))
   }
 
-  // 완료되지 않은 할일의 개수????
-  const remainingCount = todoList.filter((todo)=> todo.completed === false ).length;
-
   // 버튼을 클릭하면... 완료된 todo가 모두 삭제되어야 함
   // 완료되지 않은 todo만 남겨야 한다....
   function clearCompletedTodos(){
     setTodoList(old => old.filter(todo => todo.completed === false));
   }
+
+  // 완료되지 않은 할일의 개수????
+  const remainingCount = todoList.filter((todo)=> todo.completed === false).length;
   // 완료된 todo가 없으면... clear 버튼이 안 보여야 함
   const completedCount = todoList.length - remainingCount;
 

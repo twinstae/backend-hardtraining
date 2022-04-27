@@ -2,7 +2,7 @@ import React from 'react';
 import TodoListItem from './TodoListItem';
 import useTodoListStore from './useTodoListStore';
 
-function TodoListUl({ deleteTodo, completeTodo}){
+function TodoListUl(){
   const todoList = useTodoListStore(state=>state.todoList);
   return (
     <ul className="todo-list">
