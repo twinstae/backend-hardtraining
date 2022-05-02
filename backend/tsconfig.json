@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
-      "target": "es2018",
-      "lib": ["es2018", "es2015", "es2017", "esnext"],
-      "module": "commonjs",
-      "outDir": "dist",
-      "rootDir": "src",
-      "removeComments": false,
-      "downlevelIteration": true,
-      "strict": true,
-      "noImplicitAny": true,
-      "strictNullChecks": false,
-      "noImplicitThis": false,
-      "alwaysStrict": true,
-      "noUnusedParameters": false,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-      "moduleResolution": "node",
-      "experimentalDecorators": true,
-      "sourceMap": true
-  },
-  "exclude": ["node_modules"]
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
 }
