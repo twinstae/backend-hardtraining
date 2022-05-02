@@ -1,5 +1,5 @@
 import React from 'react'
-import useTodoListStore, { useRemainingCount } from './useTodoListStore';
+import { useRemainingCount } from './useTodoListStore';
 
 const TodoCount = () => {
   // 완료되지 않은 todo의 개수

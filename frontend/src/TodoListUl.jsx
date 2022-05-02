@@ -1,9 +1,9 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
-import useTodoListStore from './useTodoListStore';
+import { useFilteredTodoList } from './useTodoListStore';
 
 function TodoListUl(){
-  const todoList = useTodoListStore(state=>state.todoList);
+  const todoList = useFilteredTodoList();
   return (
     <ul className="todo-list">
       {todoList.map(todo =>

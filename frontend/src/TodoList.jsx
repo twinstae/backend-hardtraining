@@ -5,6 +5,7 @@ import TodoCount from "./TodoCount";
 import ClearCompletedButton from './ClearCompletedButton';
 import useTodoList from './useTodoList';
 import TodoListUl from './TodoListUl';
+import FilterNav from './FilterNav';
 /*
 0. style loader와 css!
 1. jsx => html 이랑 다른 점!
@@ -31,25 +32,7 @@ export default function TodoList() {
         </section>
         <footer className="footer">
           <TodoCount />
-          <ul className="filters">
-            <li>
-              <a href="#/" className="selected">
-                All
-              </a>
-            </li>
-            <span> </span>
-            <li>
-              <a href="#/active" className="">
-                Active
-              </a>
-            </li>
-            <span> </span>
-            <li>
-              <a href="#/completed" className="">
-                Completed
-              </a>
-            </li>
-          </ul>
+          <FilterNav />
           
           <ClearCompletedButton />
         </footer>
