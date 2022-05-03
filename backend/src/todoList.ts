@@ -1,5 +1,7 @@
 // 데이터를 읽기, 질의 query (read)
 
+import { domainToASCII } from "url";
+
 // 데이터를 변경 mutation, (create update delete)
 // todo를 추가할 수 있다
 export function addTodo(todoList: Todo[], newTodo: Todo): Todo[]{
@@ -20,3 +22,11 @@ export function completeTodo(todoList: Todo[], targetContent: string): Todo[]{
 export function deleteTodo(todoList: Todo[], targetContent: string): Todo[]{
   return todoList.filter(todo => todo.content !== targetContent);
 }
+
+const domain = {
+  addTodo,
+  completeTodo,
+  deleteTodo
+};
+
+export default domain;

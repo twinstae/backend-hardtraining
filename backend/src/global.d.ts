@@ -26,3 +26,13 @@ interface TodoRepository {
 }
 
 // implements
+interface TodoListService {
+  // mutation, command
+  addTodo: (newTodo: Todo) => Promise<void>
+  deleteTodo: (targetContent: string) => Promise<void>
+  completeTodo: (targetContent: string) => Promise<void>
+  // query
+  getTodoList: () => Promise<Todo[]>
+}
+
+// CQRS : 명령과 질의의 분리!
