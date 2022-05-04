@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AddTodoForm from './AddTodoForm';
 import TodoListItem from './TodoListItem';
 import TodoCount from "./TodoCount";
@@ -21,12 +21,6 @@ export default function TodoList() {
   // 로컬 스토리지에서...
   // 백업된 데이터가 있으면
   // 상태 스토어에 백업된 데이터로 초기화를 해준다!
-  const todoList = useTodoListStore(state=>state.todoList);
-  
-  useEffect(()=>{
-    // 저장하기
-    localStorage.setItem(KEY, JSON.stringify(todoList));
-  }, [todoList])
 
   return (
     <section className="todoapp">

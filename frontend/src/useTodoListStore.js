@@ -1,25 +1,14 @@
-import create from 'zustand';
-
-const KEY = "TodoList"
-
+import create from 'zustand'
+import { persist } from "zustand/middleware"
 // https://github.com/pmndrs/zustand#persist-middleware
 
-const data = localStorage.getItem(KEY); // 문자열만 저장할 수 있음
-
-let initValue;
-if (data !== null) {
-  initValue = JSON.parse(data);
-} else {
-  // 초기값을 넣어줌
-  initValue = [
-    {
-      id: crypto.randomUUID(),
-      content: "벚꽃구경하기",
-      completed: false,
-    },
-  ];
-} 
-
+const initValue =[
+  {
+    id: crypto.randomUUID(),
+    content: "벚꽃구경하기",
+    completed: false,
+  },
+];
 // filter 상태는 어떤 타입이 어울릴까요?
 // type FilterT = "all"|"active"|"completed" // 어떤 필터가 선택되었는지?
 // filteredList = Todo[] // 필터된 리스트의 타입
@@ -33,50 +22,55 @@ const filterDict = {
   "completed": todoList => todoList.filter((todo)=> todo.completed === true),
 }
 
-const useTodoListStore = create(set => ({
-  todoList: initValue,
-  selectedFilter: "all", // as FilterT,
-  selectFilter: (newFilter) => set(old => {
-    return {
-      ...old,
-      selectedFilter: newFilter,
-    }
-  }),
-  addTodo: (newContent) => set(old => {
-    const newTodo =  {
-      id: crypto.randomUUID(),
-      content: newContent,
-      completed: false,
-    };
+const useTodoListStore = create(persist(
+  set => ({
+    todoList: initValue,
+    selectedFilter: "all", // as FilterT,
+    selectFilter: (newFilter) => set(old => {
+      return {
+        ...old,
+        selectedFilter: newFilter,
+      }
+    }),
+    addTodo: (newContent) => set(old => {
+      const newTodo =  {
+        id: crypto.randomUUID(),
+        content: newContent,
+        completed: false,
+      };
 
-    return {
-      ...old,
-      todoList: [...old.todoList, newTodo]
-    };
+      return {
+        ...old,
+        todoList: [...old.todoList, newTodo]
+      };
+    }),
+    deleteTodo:(id) => set((old) => {
+    
+      return {
+        ...old,
+        todoList: old.todoList.filter((todo)=>todo.id!==id)
+      }
+    }),
+    completeTodo: (id, checked) => set((old) => {
+      return {
+        ...old,
+        todoList: old.todoList.map(todo => todo.id !== id ? todo : {
+          ...todo,
+          completed: checked,
+        })
+      }
+    }),
+    clearCompletedTodos: () => set(old => {
+      return {
+        ...old,
+        todoList: filterDict.active(old.todoList)
+      }
+    })
   }),
-  deleteTodo:(id) => set((old) => {
-  
-    return {
-      ...old,
-      todoList: old.todoList.filter((todo)=>todo.id!==id)
-    }
-  }),
-  completeTodo: (id, checked) => set((old) => {
-    return {
-      ...old,
-      todoList: old.todoList.map(todo => todo.id !== id ? todo : {
-        ...todo,
-        completed: checked,
-      })
-    }
-  }),
-  clearCompletedTodos: () => set(old => {
-    return {
-      ...old,
-      todoList: filterDict.active(old.todoList)
-    }
-  })
-}));
+  {
+    name: "TodoList",
+  }
+));
 
 // // 완료되지 않은 할일의 개수????
 // const remainingCount = todoList.filter((todo)=> todo.completed === false ).length;
