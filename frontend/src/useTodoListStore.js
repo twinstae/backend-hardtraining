@@ -1,12 +1,25 @@
 import create from 'zustand';
 
-const initValue = [
-  {
-    id: crypto.randomUUID(), // string
-    content: "벚꽃구경하기",
-    completed: false, // boolean
-  },
-];
+const KEY = "TodoList"
+
+// https://github.com/pmndrs/zustand#persist-middleware
+
+const data = localStorage.getItem(KEY); // 문자열만 저장할 수 있음
+
+let initValue;
+if (data !== null) {
+  initValue = JSON.parse(data);
+} else {
+  // 초기값을 넣어줌
+  initValue = [
+    {
+      id: crypto.randomUUID(),
+      content: "벚꽃구경하기",
+      completed: false,
+    },
+  ];
+} 
+
 // filter 상태는 어떤 타입이 어울릴까요?
 // type FilterT = "all"|"active"|"completed" // 어떤 필터가 선택되었는지?
 // filteredList = Todo[] // 필터된 리스트의 타입
@@ -24,7 +37,6 @@ const useTodoListStore = create(set => ({
   todoList: initValue,
   selectedFilter: "all", // as FilterT,
   selectFilter: (newFilter) => set(old => {
-  
     return {
       ...old,
       selectedFilter: newFilter,
@@ -64,21 +76,20 @@ const useTodoListStore = create(set => ({
       todoList: filterDict.active(old.todoList)
     }
   })
-  
 }));
 
-  // // 완료되지 않은 할일의 개수????
-  // const remainingCount = todoList.filter((todo)=> todo.completed === false ).length;
+// // 완료되지 않은 할일의 개수????
+// const remainingCount = todoList.filter((todo)=> todo.completed === false ).length;
 
-  // // 버튼을 클릭하면... 완료된 todo가 모두 삭제되어야 함
-  // // 완료되지 않은 todo만 남겨야 한다....
-  // function clearCompletedTodos(){
-  //   setTodoList(old => old.filter(todo => todo.completed === false));
-  // }
-  // // 완료된 todo가 없으면... clear 버튼이 안 보여야 함
-  // const completedCount = todoList.length - remainingCount;
+// // 버튼을 클릭하면... 완료된 todo가 모두 삭제되어야 함
+// // 완료되지 않은 todo만 남겨야 한다....
+// function clearCompletedTodos(){
+//   setTodoList(old => old.filter(todo => todo.completed === false));
+// }
+// // 완료된 todo가 없으면... clear 버튼이 안 보여야 함
+// const completedCount = todoList.length - remainingCount;
 
-  // derived, computed, getter, selector, lazy ...
+// derived, computed, getter, selector, lazy ...
 export const useRemainingCount = ()=>{
   return useTodoListStore(state=>filterDict.active(state.todoList).length)
 }
@@ -94,7 +105,6 @@ export const useFilteredTodoList = () => {
     // 선택된 filter 꺼내기
     // 원본 투두리스트에서 선택된 필터에 따라서 다르게 필터한 todoList를 리턴하기
     // const filterFunc = filterDict[state.selectedFilter]; // filterDict에서 원하는 필터 함수 가져오기
-
     return filterDict[state.selectedFilter](state.todoList); // todoList에 그 필터함수를 적용해서 반환하기
   })
 }
