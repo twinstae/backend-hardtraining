@@ -1,7 +1,12 @@
+import { Injectable, Inject } from '@nestjs/common';
 import domain from '../todoList';
 
-export class TodoListService implements TodoListService {
-  constructor(private readonly todoRepository : TodoRepository){}
+@Injectable()
+export class TodoListService implements ITodoListService {
+  constructor(
+    @Inject("TODO_REPOSITORY")
+    private readonly todoRepository: ITodoRepository
+  ){}
 
   async addTodo(newTodo: Todo){ //1. controller에게 데이터를 받으면
     //2. repository에서 기존 데이터를 들고 와서
@@ -16,10 +21,12 @@ export class TodoListService implements TodoListService {
 
   async deleteTodo(targetContent: string){
     const oldTodoList = await this.todoRepository.getAll();
+
     const newTodoList = domain.deleteTodo(oldTodoList, targetContent);
-    await this.todoRepository.saveAll(newTodoList);
     
+    await this.todoRepository.saveAll(newTodoList); 
   }
+
   async completeTodo (targetContent: string){
     const oldTodoList = await this.todoRepository.getAll();
     const newTodoList = domain.completeTodo(oldTodoList, targetContent);
