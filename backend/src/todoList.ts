@@ -1,7 +1,5 @@
 // 데이터를 읽기, 질의 query (read)
 
-import { domainToASCII } from "url";
-
 // 데이터를 변경 mutation, (create update delete)
 // todo를 추가할 수 있다
 export function addTodo(todoList: Todo[], newTodo: Todo): Todo[]{

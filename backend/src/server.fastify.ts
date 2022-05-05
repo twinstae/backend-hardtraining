@@ -6,7 +6,7 @@ import fsRepository from './fsRepository';
 
 const repository = fsRepository;
 
-const createSetTodoList = (repository: TodoRepository) => async (transform: (todoList: Todo[]) => Todo[] ): Promise<void> => {
+const createSetTodoList = (repository: ITodoRepository) => async (transform: (todoList: Todo[]) => Todo[] ): Promise<void> => {
   const oldTodoList = await repository.getAll(); // 1 똑같은
   const newTodoList = transform(oldTodoList)    // 2 < 변하는 부분
   await repository.saveAll(newTodoList);       // 3 똑같은
@@ -91,7 +91,6 @@ server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent'
   await noduplicate(deleteTodo, targetContent);
 
   reply.status(204);
-  return { ok: true }
 });
 
 // completeTodo patch
