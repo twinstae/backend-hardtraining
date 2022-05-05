@@ -1,5 +1,6 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from "fastify";
 import { addTodo, deleteTodo, completeTodo } from "./todoList";
+import fsRepository from "./fsRepository";
 // require commonjs
 // import  esm
 
@@ -46,7 +47,12 @@ let todoList = [
 // 질문 생긴걸 언제 답변을 받을지? 얼마나 (시간을) 할애해서 어떤 방식으로 할 지?
 // server를 뭐라고 부르는지? 예시 : get은 http 메서드에요~
 // 왜 굳이 async 붙여주어야 하나요?
- server.get("/todo-list", opts, async (request, reply) => {
+// query, Read 읽기 요청!
+// get /todo-list 라는 요청이 들어오면
+// todoList 를 반환하는 route 를 만들어보세요!
+server.get('/todo-list', opts, async (request, reply) => {
+  // fsRepository로 읽어온 todoList 배열(?)을 todoList변수에 담는다.
+
   reply.status(200);
   return { todoList };
 });
@@ -60,6 +66,7 @@ server.post<{ Body: Todo }>("/todo-list", async (request, reply) => {
   reply.status(201);
   return { ok: true };
 });
+
 
 // deleteTodo delete
 server.delete<{ Params: { targetContent: string } }>(
@@ -83,20 +90,4 @@ server.patch<{Params : {targetContent : string}}>(
  }
 );
 
-async function get() {
-  const response = await server.inject({ 
-    method: "GET", 
-    url: "/todo-list"
-  });
-}
-
-
-server.listen(3000,(err, address)=> {
-  if (err) {
-    server.log.error(err)
-    process.exit(1)
-  }
-const respond = get()
-console.log(respond)
-})
 export default server;
