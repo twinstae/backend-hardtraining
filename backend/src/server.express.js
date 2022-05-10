@@ -5,18 +5,18 @@ const { addTodo, deleteTodo, completeTodo } = require('./todoList');
 
 let todoList = [{ content: "일본 라면 먹기", completed: false, createdAt: 123 }];
 
+//binding
 app.use(express.json());
 // app.use(express.urlencoded( { extended : false } ));
+// routing
+// 경로설정
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 app.get('/todo-list', (req, res) => {
-  
-  
   res.status(200).send(todoList);
-  
 })
 
 app.post('/todo-list', (req, res) => {

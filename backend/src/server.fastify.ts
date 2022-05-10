@@ -1,6 +1,5 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from "fastify";
 import { addTodo, deleteTodo, completeTodo } from "./todoList";
-import fsRepository from "./fsRepository";
 // require commonjs
 // import  esm
 
@@ -86,7 +85,7 @@ server.patch<{Params : {targetContent : string}}>(
    const {targetContent} = request.params;
    todoList = completeTodo(todoList, targetContent);
    reply.status(200)
-   return {ok:true}
+   return {ok: true};
  }
 );
 

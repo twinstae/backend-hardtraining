@@ -1,6 +1,6 @@
 // specification
 import { describe, expect, it } from "vitest";
-import server from "./server.fastify.ts";
+import server from "./src/server.fastify.ts";
 //import { deleteTodo } from "./src/todoList";
 // 무상태로 저 문서를 보면서 추론하기
 // 정답지(테스트)보면서 expect, describe가 뭔지 찾아보기
@@ -68,18 +68,15 @@ describe("todolist api", () => {
   it("complete Todo", async () => {
     const response = await server.inject({
       method: "PATCH",
-      url: `/todo-list/${TODO_2.targetContent}`,
-
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      // body: JSON.stringify(_2),
+      url: `/todo-list/${TODO_2.content}`,
     });
 
     expect(response.statusCode).toBe(200);
     expect(JSON.parse(response.body)).toStrictEqual({ ok: true });
+
     expect(await get()).toStrictEqual({
       todoList: [
+        TODO_1,
         { content: "프리스타일 랩하기", completed: true, createdAt: 124 },
       ],
     });
