@@ -15,10 +15,10 @@ export class TodoListController {
     // 추가
     @Post("/todo-list")
     async addTodo(
-        @Body() newTodo: Todo
+        newTodo: Todo
     ){
         await this.todoListService.addTodo(newTodo);
-        return { ok: true };
+        { ok: true };
     }
 
     @Patch("/todo-list/:targetContent")
