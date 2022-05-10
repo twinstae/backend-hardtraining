@@ -15,7 +15,7 @@ export class TodoListController {
     // 추가
     @Post("/todo-list")
     async addTodo(
-        newTodo: Todo
+        @Body() newTodo: Todo
     ){
         await this.todoListService.addTodo(newTodo);
         { ok: true };
