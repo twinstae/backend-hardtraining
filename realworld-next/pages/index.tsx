@@ -1,4 +1,5 @@
 import type { NextPage, GetServerSideProps } from 'next'
+import Link from 'next/link'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -19,8 +20,12 @@ interface CardItemProps {
 const CardItem = ({ article }: CardItemProps) => {
   return (
     <li>
-      <h3>{article.title}</h3>
-      <p>{article.description}</p>
+      <Link href={"./articles/" + article.slug}>
+        <a>
+          <h3>{article.title}</h3> 
+          <p>{article.description}</p>
+        </a>
+      </Link>
     </li>
   )
 }
@@ -63,6 +68,7 @@ const Home: NextPage<HomeProps> = ({ data }) => {
 }
 
 export default Home
+
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
   // https://api.realworld.io/api/articles?limit=10&offset=0
