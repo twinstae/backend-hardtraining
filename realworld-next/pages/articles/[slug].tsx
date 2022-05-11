@@ -28,9 +28,15 @@ const ArticleDetail: NextPage<ArticleDetailProps> = ({ article }) => {
 
 export default ArticleDetail;
 
+// /articles/:slug
+// react-router-dom
 
-export const getServerSideProps: GetServerSideProps<ArticleDetailProps> = async (context) => {
-  const slug = context.params?.slug;
+type ArticleDetailParams = {
+  slug: string;
+}
+
+export const getServerSideProps: GetServerSideProps<ArticleDetailProps, ArticleDetailParams> = async (context) => {
+  const { slug } = context.params!;
   
   // slug의 타입이... 너무 넓다! (string 이어야 하고... string[], undefined 같은 거는 허용 안 해야 하는데)
   const res = await fetch(`https://api.realworld.io/api/articles/` + slug)
