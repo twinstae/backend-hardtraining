@@ -7,45 +7,59 @@ const FILE_NAME = './database.db';
 
 let dbClient: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
-const createTodoTableQuery = `CREATE TABLE Todos (
-  Content text PRIMARY KEY,
-  Completed int,
-  CreatedAt int
-);`
-
-sqlite3.verbose();
-
 open({
   filename: FILE_NAME,
   driver: sqlite3.Database
 }).then(async (newDBClient) => {
   dbClient = newDBClient;
-  
-  // 1. 테이블을 만든다(db마다 지원하는 타입 확인)
-  // await dbClient.exec(createTodoTableQuery);
-
-  // 2. todo 데이터를 추가한다
-  // Date.now()
-  // 유닉스 시간! 1970년 1월 1일부터 몇 초가 지났는지를 숫자로 나타낸 것
-  await dbClient.exec(`INSERT INTO Todos VALUES ("DB만들기2", 1, ${Date.now()})`);
-  await dbClient.exec(`INSERT INTO Todos VALUES ("프리스타일 랩하기2", 0, ${Date.now()})`);
-
-  // 3. 모든 todoList row를 들고 와서, 객체 배열로 변환하는 걸 만든다
-  const result = await dbClient.all('SELECT Content, Completed, CreatedAt FROM Todos');
-  console.log(result.map(row => ({
-    content: row.Content,
-    completed: Boolean(row.Completed),
-    createdAt: row.CreatedAt,
-  })));
 })
 
 @Injectable()
 export class SQLiteTodoRepository implements ITodoRepository {
+  _oldTodoList: Todo[]
   constructor(){}
-  async saveAll(todoList){
+
+  // select, update, insert into, delete
+
+  // before after
+  // []         [{프리스타일}] => insert into
+  // [{프리}]    []          => delete
+  // [{프리, 1}] [{프리, 0}]  => update
+
+
+  async saveAll(todoList: Todo[]){
+    // 어려움... 우리가 직접 orm을 만들어야 함!
+    const oldContents = this._oldTodoList.map(todo => todo.content);
+
+    const newTodos = todoList.filter(todo => {
+      return !oldContents.includes(todo.content)
+    });
+    newTodos.forEach(newTodo => {
+      dbClient.exec(`INSERT INTO Todos VALUES("${newTodo.content}", ${Number(newTodo.completed)}, ${newTodo.createdAt})`)
+    });
+
+    const newContents = todoList.map(todo => todo.content);
+    const deletedTodos = this._oldTodoList.filter(todo => {
+      return !newContents.includes(todo.content)
+    });
+    deletedTodos.forEach(deletedTodo => {
+      dbClient.exec(`DELETE FROM Todos WHERE Content="${deletedTodo.content}"`);
+    });
+    
   }
 
   async getAll(){
-    return []
+    // getAll을 구현... 쉬움
+    // select
+    const result = dbClient.all(`SELECT Content, Completed, CreatedAt FROM Todos;`)
+      .then(result => result.map((row) => ({
+        content: row.Content ,
+        completed: Boolean(row.Completed),
+        createdAt: row.CreatedAt,
+      })))
+
+    this._oldTodoList = await result;
+
+    return result;
   }
 }
