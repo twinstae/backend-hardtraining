@@ -7,7 +7,11 @@ import { addTodo, deleteTodo, completeTodo } from "./todoList";
 // require <-> import
 // CJS <-> ESM 의 차이!
 
-const server: FastifyInstance = Fastify({ logger: true });
+const createSetTodoList = (repository: ITodoRepository) => async (transform: (todoList: Todo[]) => Todo[] ): Promise<void> => {
+  const oldTodoList = await repository.getAll(); // 1 똑같은
+  const newTodoList = transform(oldTodoList)    // 2 < 변하는 부분
+  await repository.saveAll(newTodoList);       // 3 똑같은
+}
 
 const opts: RouteShorthandOptions = {
   schema: {
@@ -68,15 +72,13 @@ server.post<{ Body: Todo }>("/todo-list", async (request, reply) => {
 
 
 // deleteTodo delete
-server.delete<{ Params: { targetContent: string } }>(
-  "/todo-list/:targetContent",
-  async (request, reply) => {
-    const { targetContent } = request.params;
-    todoList = deleteTodo(todoList, targetContent);
-    reply.status(204);
-    return { ok: true };
-  }
-);
+server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
+  const { targetContent } = request.params;
+  
+  await noduplicate(deleteTodo, targetContent);
+
+  reply.status(204);
+});
 
 // completeTodo patch
 server.patch<{Params : {targetContent : string}}>(

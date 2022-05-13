@@ -10,7 +10,7 @@ const FilterNav = () => {
   return (
     <ul className="filters">
       {['all', 'active', 'completed'].map(filter => (
-        <li onClick={() => selectFilter(filter)}>
+        <li onClick={() => selectFilter(filter)} key={filter}>
           <a href="#/" className={filter === selectedFilter ? 'selected' : ''}>
             {filter}
           </a>

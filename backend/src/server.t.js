@@ -41,7 +41,6 @@ describe("todolist api", ()=>{
     // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
     
     expect(response.statusCode).toBe(201);
-    expect(JSON.parse(response.body)).toStrictEqual({ ok: true });
     expect(await get()).toStrictEqual({ "todoList": [TODO_1, TODO_2] });
   });
 
@@ -53,7 +52,6 @@ describe("todolist api", ()=>{
     });
 
     expect(response.statusCode).toBe(200);
-    expect(JSON.parse(response.body)).toStrictEqual({ ok: true });
     expect(await get()).toStrictEqual({ "todoList": [
       TODO_1, { content: "프리스타일 랩하기", completed: true, createdAt: 124 }
     ] });
@@ -67,7 +65,6 @@ describe("todolist api", ()=>{
     });
 
     expect(response.statusCode).toBe(204);
-    expect(JSON.parse(response.body)).toStrictEqual({ ok: true });
     expect(await get()).toStrictEqual({ "todoList": [TODO_1] });
   });
 });
