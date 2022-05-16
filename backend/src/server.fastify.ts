@@ -1,5 +1,6 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from "fastify";
 import { addTodo, deleteTodo, completeTodo } from "./todoList";
+const server: FastifyInstance = Fastify({ logger: true })
 // require commonjs
 // import  esm
 
@@ -72,13 +73,14 @@ server.post<{ Body: Todo }>("/todo-list", async (request, reply) => {
 
 
 // deleteTodo delete
-server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
-  const { targetContent } = request.params;
-  
-  await noduplicate(deleteTodo, targetContent);
 
-  reply.status(204);
-});
+// server.delete<{ Params: { targetContent: string } }>('/todo-list/:targetContent', async (request, reply) => {
+//   const { targetContent } = request.params;
+  
+//   await noduplicate(deleteTodo, targetContent);
+
+//   reply.status(204);
+// });
 
 // completeTodo patch
 server.patch<{Params : {targetContent : string}}>(
