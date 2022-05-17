@@ -13,7 +13,7 @@ export function completeTodo(todoList: Todo[], targetContent: string): Todo[]{
   // const targetTodo = todoList.find(todo => todo.content === targetContent);
   // targetTodo.completed = true;
 
-  return todoList.map(todo => todo.content === targetContent ? {...todo, completed: true } : todo);
+  return todoList.map(todo => todo.content === targetContent ? {...todo, completed: !todo.completed } : todo);
 }
 
 // todo를 삭제할 수 있다
