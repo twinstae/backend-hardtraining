@@ -7,6 +7,8 @@ const FILE_NAME = './database.db';
 
 let dbClient: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
+sqlite3.verbose()
+
 open({
   filename: FILE_NAME,
   driver: sqlite3.Database
@@ -46,6 +48,29 @@ export class SQLiteTodoRepository implements ITodoRepository {
       dbClient.exec(`DELETE FROM Todos WHERE Content="${deletedTodo.content}"`);
     });
     
+    // old todo content에도 있는데 new todo에도 content 있다 그런데... 두 객체가 다르다면? update 된 거임
+    // updated 된 todo만 걸러야 함
+    
+    const updatedTodos = todoList.filter((newTodo) => {
+      // old에도 newTodo와 똑같은 content를 가진 애가 있으면 그걸 찾음
+      // 그 이름은 oldTodo
+      const oldTodo = this._oldTodoList.find(oldTodo => oldTodo.content === newTodo.content)
+      if(oldTodo){
+        // oldTodo랑 newTodo가 다르면
+        // 이거 업데이트 된 거네!
+        if(oldTodo !== newTodo){
+          return true
+        }
+      }
+      return false
+    })
+    updatedTodos.forEach(updatedTodo => {
+      console.log(updatedTodo)
+      dbClient.run(`UPDATE Todos SET Completed = (:completed) WHERE Content = (:targetContent);`, {
+        ':completed': Number(updatedTodo.completed),
+        ':targetContent': updatedTodo.content
+      })
+    })
   }
 
   async getAll(){
