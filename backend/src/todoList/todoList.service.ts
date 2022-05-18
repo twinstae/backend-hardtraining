@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import domain from '../todoList';
+import * as domain from '../todoList';
 
 @Injectable()
 export class TodoListService implements ITodoListService {

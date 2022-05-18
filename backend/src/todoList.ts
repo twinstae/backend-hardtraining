@@ -20,11 +20,3 @@ export function completeTodo(todoList: Todo[], targetContent: string): Todo[]{
 export function deleteTodo(todoList: Todo[], targetContent: string): Todo[]{
   return todoList.filter(todo => todo.content !== targetContent);
 }
-
-const domain = {
-  addTodo,
-  completeTodo,
-  deleteTodo
-};
-
-export default domain;
