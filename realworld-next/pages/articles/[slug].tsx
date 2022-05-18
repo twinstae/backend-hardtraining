@@ -1,4 +1,5 @@
 import type { NextPage, GetStaticProps, GetStaticPaths } from 'next'
+import Link from 'next/link';
 
 type ArticleT = {
   slug: string;
@@ -41,6 +42,11 @@ const ArticleDetail: NextPage<ArticleDetailProps> = ({ article, comments }) => {
 
   return (
     <>
+      <Link href="/">
+        <a>
+          Home
+        </a>
+      </Link>
       <h1>{article.title}</h1>
       <p> {article.body}</p>
 
