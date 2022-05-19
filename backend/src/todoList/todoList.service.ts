@@ -15,15 +15,12 @@ export class TodoListService implements ITodoListService {
     const newTodoList = domain.addTodo(oldTodoList, newTodo);
     //4. repository에게 다시 새 투두 리스트를 저장하라 하고
     await this.todoRepository.saveAll(newTodoList);
-    //5. controller에게 끝났어요~a
+    //5. controller에게 끝났어요
   }
-    //1. controller에게 데이터를 받으면
 
   async deleteTodo(targetContent: string){
     const oldTodoList = await this.todoRepository.getAll();
-
     const newTodoList = domain.deleteTodo(oldTodoList, targetContent);
-    
     await this.todoRepository.saveAll(newTodoList); 
   }
 
