@@ -1,15 +1,10 @@
 
 
-
-
-
-
-
-type Todo = {
-  Content : string;
-  Completed : boolean;
-  CreatedAT : number;
-};
+// type Todo = {
+//   Content : string;
+//   Completed : boolean;
+//   CreatedAT : number;
+// };
 
 
 interface ITodoRepository {
