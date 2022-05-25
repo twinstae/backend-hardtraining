@@ -31,6 +31,9 @@ export class SQLiteTodoRepository implements ITodoRepository {
 
   async saveAll(todoList: Todo[]){
     // 어려움... 우리가 직접 orm을 만들어야 함!
+    //여기서 this = 여기서 쓸게!
+    // 바인딩 ? 
+    //
     const oldContents = this._oldTodoList.map(todo => todo.content);
 
     const newTodos = todoList.filter(todo => {
