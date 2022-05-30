@@ -2,6 +2,7 @@ import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
 
 import { Injectable } from '@nestjs/common';
+import { Todo } from './todoList.todoModel';
 
 const FILE_NAME = './database.db';
 

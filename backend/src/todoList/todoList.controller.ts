@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Delete, Patch , Param, Body, Inject } from '@nestjs/common';
+import { Todo } from './todoList.todoModel';
 
 @Controller("/todo-list")
 export class TodoListController {
@@ -18,7 +19,6 @@ export class TodoListController {
         @Body() newTodo: Todo
     ){
         await this.todoListService.addTodo(newTodo);
-        { ok: true };
     }
 
     @Patch("/:targetContent")
@@ -26,7 +26,6 @@ export class TodoListController {
         @Param('targetContent') targetContent : string
     ){
         await this.todoListService.completeTodo(targetContent);
-        return { ok: true }
     }
 
     //"/todo-list/벚꽃 구경 하기"

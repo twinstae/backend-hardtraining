@@ -7,12 +7,6 @@
 // todo 목록 전체를 가져올 수 있다
   // pagination
 
-type Todo = {
-  content: string;
-  completed: boolean;
-  createdAt: number;
-};
-
 // cqrs -> 읽기 (의존성)와 쓰기(부수효과)를 분리
 
 // 순수함수 => 어떤 값을 받아서 변환하는 게 목적... 항상 같은 값이 들어오면 같은 값이 나와야 한다
