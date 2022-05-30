@@ -52,23 +52,13 @@ const Home: NextPage<HomeProps> = ({ data }) => {
         <meta name="description" content="리얼월드의 넥스트 앱" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <nav>
-        <Link href="/auth/signup">
-          <a>
-            Sign Up
-          </a>
-        </Link>
-      </nav>
-
-      <main className={styles.main}>
-        <h1>conduit
-        A place to share your knowledge.</h1>
-        <ul>
-          {articles.map((article) => (
-            <CardItem key={article.slug} article={article}/>
-          ))}
-        </ul>
-      </main>
+      <h1>conduit
+      A place to share your knowledge.</h1>
+      <ul>
+        {articles.map((article) => (
+          <CardItem key={article.slug} article={article}/>
+        ))}
+      </ul>
     </div>
   )
 }
