@@ -2,7 +2,6 @@ import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
 
 import { Injectable } from '@nestjs/common';
-import { Todo } from './todoList.todoModel';
 
 const FILE_NAME = './database.db';
 
@@ -28,7 +27,6 @@ export class SQLiteTodoRepository implements ITodoRepository {
   // []         [{프리스타일}] => insert into
   // [{프리}]    []          => delete
   // [{프리, 1}] [{프리, 0}]  => update
-
 
   async saveAll(todoList: Todo[]){
     // 어려움... 우리가 직접 orm을 만들어야 함!
@@ -79,7 +77,7 @@ export class SQLiteTodoRepository implements ITodoRepository {
     // select
     const result = dbClient.all(`SELECT Content, Completed, CreatedAt FROM Todos;`)
       .then(result => result.map((row) => ({
-        content: row.Content ,
+        content: row.Content,
         completed: Boolean(row.Completed),
         createdAt: row.CreatedAt,
       })))

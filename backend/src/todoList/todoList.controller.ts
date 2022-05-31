@@ -1,5 +1,4 @@
 import { Controller, Get, Post, Delete, Patch , Param, Body, Inject } from '@nestjs/common';
-import { Todo } from './todoList.todoModel';
 
 @Controller("/todo-list")
 export class TodoListController {

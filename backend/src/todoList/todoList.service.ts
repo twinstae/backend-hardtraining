@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
 import * as domain from '../todoList';
-import { Todo } from './todoList.todoModel';
 
 @Injectable()
 export class TodoListService implements ITodoListService {

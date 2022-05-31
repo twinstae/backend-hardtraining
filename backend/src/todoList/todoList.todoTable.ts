@@ -1,13 +1,13 @@
 import { Entity, Column, PrimaryColumn } from "typeorm"
 
 @Entity()
-export class Todo {
-  @PrimaryColumn()
+export class TodoTable {
+  @PrimaryColumn('varchar', { length: 140 })
   content: string;
 
   @Column()
   completed: boolean;
 
-  @Column()
+  @Column('int')
   createdAt: number;
 };
