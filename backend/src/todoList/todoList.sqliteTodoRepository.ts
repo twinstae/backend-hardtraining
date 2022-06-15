@@ -1,10 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
-
 import { Injectable } from '@nestjs/common';
-
 const FILE_NAME = './database.db';
-
 let dbClient: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
 sqlite3.verbose()
@@ -12,7 +9,7 @@ sqlite3.verbose()
 open({
   filename: FILE_NAME,
   driver: sqlite3.Database
-}).then(async (newDBClient) => {
+}).then((newDBClient) => {
   dbClient = newDBClient;
 })
 
