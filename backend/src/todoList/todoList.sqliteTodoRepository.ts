@@ -25,10 +25,9 @@ export class SQLiteTodoRepository implements ITodoRepository {
   // [{프리}]    []          => delete
   // [{프리, 1}] [{프리, 0}]  => update
 
-
   async saveAll(todoList: Todo[]){
     // 어려움... 우리가 직접 orm을 만들어야 함!
-    //여기서 this = 여기서 쓸게!
+    // 여기서 this = 여기서 쓸게!
     // 바인딩 ? 
     //
     const oldContents = this._oldTodoList.map(todo => todo.content);
@@ -76,9 +75,10 @@ export class SQLiteTodoRepository implements ITodoRepository {
   async getAll(){
     // getAll을 구현... 쉬움
     // select
+  
     const result = dbClient.all(`SELECT Content, Completed, CreatedAt FROM Todos;`)
       .then(result => result.map((row) => ({
-        content: row.Content ,
+        content: row.Content,
         completed: Boolean(row.Completed),
         createdAt: row.CreatedAt,
       })))
