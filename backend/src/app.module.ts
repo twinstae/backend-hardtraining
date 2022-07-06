@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SQLiteTodoRepository } from "./todoList/todoList.sqliteTodoRepository.practice";
 import { TodoListController } from './todoList/todoList.controller';
 import { TodoListService } from './todoList/todoList.service';
+import { TypeOrmTodoRepository } from './todoList/todoList.typeOrmRepository';
 
 @Module({ 
   imports: [],
@@ -13,7 +14,7 @@ import { TodoListService } from './todoList/todoList.service';
     },
     {
       provide: 'TODO_REPOSITORY',
-      useClass: SQLiteTodoRepository,
+      useClass: TypeOrmTodoRepository,
     }
   ]
 })
