@@ -1,19 +1,17 @@
-import { Entity , Column , PrimaryColumn, DataSource, Repository} from "typeorm"
+import { Entity , Column, PrimaryColumn, DataSource, Repository } from "typeorm"
 import { Injectable } from "@nestjs/common";
 
 
-@Entity()
+@Entity("Todos")
 export class TodoTable {
-    @PrimaryColumn({
-        length: 140,
-    })
-    content : string
+    @PrimaryColumn({ length: 140, name: "Content" })
+    content: string
 
-    @Column()
-    completed : boolean
+    @Column({ name: "Completed" })
+    completed: boolean
 
-    @Column()
-    createdAt : number
+    @Column({ name: "CreatedAt"})
+    createdAt: number
 }
 
 export const AppDataSource = new DataSource({
