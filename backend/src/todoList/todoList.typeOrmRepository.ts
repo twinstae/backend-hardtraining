@@ -4,18 +4,18 @@ import { Injectable } from "@nestjs/common";
 
 @Entity("Todos")
 export class TodoTable {
-    @PrimaryColumn({ length: 140, name: "Content" })
+    @PrimaryColumn('text', { nullable: false, length: 140, name: "Content" })
     content: string
-
-    @Column({ name: "Completed" })
+    
+    @Column('boolean',{ nullable: false, name: "Completed" })
     completed: boolean
 
-    @Column({ name: "CreatedAt"})
+    @Column('integer', { nullable: false, name: "CreatedAt"})
     createdAt: number
 }
 
-export const AppDataSource = new DataSource({
-    type: "sqlite",
+const AppDataSource = new DataSource({
+     type : "sqlite",
     database: "database.db",
     synchronize: true,
     logging: true,
@@ -23,17 +23,10 @@ export const AppDataSource = new DataSource({
     subscribers: [],
     migrations: [],
 })
-
-
-AppDataSource.initialize()
-    .then(() => {
-        // here you can start to work with your database
-    })
-    .catch((error) => console.log(error))
-
+AppDataSource.initialize().catch(console.error)
 
 @Injectable()
-export class TypeOrmTodoRepository implements ITodoRepository {
+export class TypeOrmRepository implements ITodoRepository {
   _repository: Repository<TodoTable>
   constructor() {
     this._repository = AppDataSource.getRepository(TodoTable)
@@ -53,4 +46,3 @@ export class TypeOrmTodoRepository implements ITodoRepository {
     return this._repository.find()
   }
 }
-

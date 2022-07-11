@@ -1,8 +1,8 @@
+import "reflect-metadata"
 import { Module } from '@nestjs/common';
-import { SQLiteTodoRepository } from "./todoList/todoList.sqliteTodoRepository.practice";
 import { TodoListController } from './todoList/todoList.controller';
 import { TodoListService } from './todoList/todoList.service';
-import { TypeOrmTodoRepository } from './todoList/todoList.typeOrmRepository';
+import { TypeOrmRepository } from './todoList/todoList.typeOrmRepository';
 
 @Module({ 
   imports: [],
@@ -14,7 +14,7 @@ import { TypeOrmTodoRepository } from './todoList/todoList.typeOrmRepository';
     },
     {
       provide: 'TODO_REPOSITORY',
-      useClass: TypeOrmTodoRepository,
+      useClass: TypeOrmRepository,
     }
   ]
 })

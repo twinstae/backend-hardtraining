@@ -27,7 +27,7 @@ async function get() {
   return JSON.parse(response.body);
 }
 
-describe("todolist api", () => {
+describe.skip("todolist api", () => {
   it("get all todolist", async () => {
     const response = await server.inject({
       method: "GET",
