@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import domain from '../todoList';
+import * as domain from '../todoList';
 
 @Injectable()
 export class TodoListService implements ITodoListService {
@@ -26,7 +26,17 @@ export class TodoListService implements ITodoListService {
 
   async completeTodo (targetContent: string){
     const oldTodoList = await this.todoRepository.getAll();
+
     const newTodoList = domain.completeTodo(oldTodoList, targetContent);
+
+    await this.todoRepository.saveAll(newTodoList);
+  }
+
+  async clearCompleted (){
+    const oldTodoList = await this.todoRepository.getAll();
+
+    const newTodoList = domain.clearCompleted(oldTodoList);
+
     await this.todoRepository.saveAll(newTodoList);
   }
   

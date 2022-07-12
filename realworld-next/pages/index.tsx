@@ -1,7 +1,6 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 // slug 란... title 같은 유의미한 정보를... 사용자나 검색엔진이 볼 수 있게
@@ -53,16 +52,13 @@ const Home: NextPage<HomeProps> = ({ data }) => {
         <meta name="description" content="리얼월드의 넥스트 앱" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className={styles.main}>
-        <h1>conduit
-        A place to share your knowledge.</h1>
-        <ul>
-          {articles.map((article) => (
-            <CardItem key={article.slug} article={article}/>
-          ))}
-        </ul>
-      </main>
+      <h1>conduit
+      A place to share your knowledge.</h1>
+      <ul>
+        {articles.map((article) => (
+          <CardItem key={article.slug} article={article}/>
+        ))}
+      </ul>
     </div>
   )
 }
