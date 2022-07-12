@@ -27,4 +27,13 @@ const fsRepository: ITodoRepository = {
 //   })
 //   .then((data) => console.log(data));
 
+// 정리!
+// 세가지 종류 서버 todolist 를 만들기(express, fastify, )
+// todolist의 기능을 구현,  
+// 테스트를 만들기
+// fs 파일시스템 연결하고 >> db로 갈아끼우는 걸 
+// nest(todo)
+
+
+
 export default fsRepository;

@@ -1,10 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
-
 import { Injectable } from '@nestjs/common';
-
 const FILE_NAME = './database.db';
-
 let dbClient: Database<sqlite3.Database, sqlite3.Statement> | undefined;
 
 sqlite3.verbose()
@@ -12,7 +9,7 @@ sqlite3.verbose()
 open({
   filename: FILE_NAME,
   driver: sqlite3.Database
-}).then(async (newDBClient) => {
+}).then((newDBClient) => {
   dbClient = newDBClient;
 })
 
@@ -30,6 +27,9 @@ export class SQLiteTodoRepository implements ITodoRepository {
 
   async saveAll(todoList: Todo[]){
     // 어려움... 우리가 직접 orm을 만들어야 함!
+    // 여기서 this = 여기서 쓸게!
+    // 바인딩 ? 
+    //
     const oldContents = this._oldTodoList.map(todo => todo.content);
 
     const newTodos = todoList.filter(todo => {
@@ -75,6 +75,7 @@ export class SQLiteTodoRepository implements ITodoRepository {
   async getAll(){
     // getAll을 구현... 쉬움
     // select
+  
     const result = dbClient.all(`SELECT Content, Completed, CreatedAt FROM Todos;`)
       .then(result => result.map((row) => ({
         content: row.Content,
