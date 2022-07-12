@@ -12,11 +12,10 @@ describe('todoList에 get요청을 보내면 전체 todoList가 반환된다', (
     await app.init();
   });
 
-  it(`/GET todoList`, async () => {
+  it(`GET /todo-list`, async () => {
     const response = await request(app.getHttpServer())
       .get('/todo-list')
       .set('Accept', 'application/json');
-
 
     expect(response.status).toEqual(200)
     expect(response.body).toEqual([
@@ -33,16 +32,35 @@ describe('todoList에 get요청을 보내면 전체 todoList가 반환된다', (
        ])
   });
 
-  it(`/POST todoList`, async () => {
-    const response = await request(app.getHttpServer())
-      .post('/todo-list/')
-      .set('Accept', 'application/json');
 
+  it(`POST /todo-list`, async () => {
+    const response = await request(app.getHttpServer())
+      .post('/todo-list')
+      .send({ 
+        "completed": false,
+        "content": "북북춤 추기",
+        "createdAt": 24,
+        })
+      .set('Content-Type', 'application/json');
+        
     expect(response.status).toEqual(201)
+
   });
 
 
+  it(`DELETE /todo-list/:content`, async () => {
+    const response = await request(app.getHttpServer())
+      .delete(encodeURI('/todo-list/북북춤 추기'))    
+    expect(response.status).toEqual(200)
+    
+  });
+  it(`PATCH /todo-list/:content`, async () => {
+    const response = await request(app.getHttpServer())
+      .patch(encodeURI('/todo-list/북북춤 추기'))
 
+    expect(response.status).toEqual(204)
+    
+  });
 
   afterAll(async () => {
     await app.close();

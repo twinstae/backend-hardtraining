@@ -23,26 +23,27 @@ const AppDataSource = new DataSource({
     subscribers: [],
     migrations: [],
 })
-AppDataSource.initialize().catch(console.error)
 
 @Injectable()
 export class TypeOrmRepository implements ITodoRepository {
-  _repository: Repository<TodoTable>
+  _repository: Promise<Repository<TodoTable>>
   constructor() {
-    this._repository = AppDataSource.getRepository(TodoTable)
+    this._repository = AppDataSource.initialize().then(dataSource => dataSource.getRepository(TodoTable))
   }
 
   async saveAll(newTodoList: Todo[]) {
+      const repository = await this._repository;
       const oldTodoList = await this.getAll();
       // delete 구현해야 
       // newTodoList에서 oldTodo의 content와 같은 게 한개도 없다면~ 
       const deletedTodos = oldTodoList.filter((oldTodo)=> newTodoList.every((newTodo)=> newTodo.content !== oldTodo.content))
-      await this._repository.remove(deletedTodos)
+      await repository.remove(deletedTodos)
 
-      await this._repository.save(newTodoList) // insert, update
+      await repository.save(newTodoList) // insert, update
   }
 
   async getAll() {
-    return this._repository.find()
+    const repository = await this._repository;
+    return repository.find()
   }
 }
