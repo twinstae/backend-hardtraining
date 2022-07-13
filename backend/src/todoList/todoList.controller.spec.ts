@@ -44,22 +44,20 @@ describe('todoList에 get요청을 보내면 전체 todoList가 반환된다', (
       .set('Content-Type', 'application/json');
         
     expect(response.status).toEqual(201)
-
   });
-
 
   it(`DELETE /todo-list/:content`, async () => {
     const response = await request(app.getHttpServer())
-      .delete(encodeURI('/todo-list/북북춤 추기'))    
+      .delete(encodeURI('/todo-list/북북춤 추기'))
+
     expect(response.status).toEqual(200)
-    
   });
+
   it(`PATCH /todo-list/:content`, async () => {
     const response = await request(app.getHttpServer())
       .patch(encodeURI('/todo-list/북북춤 추기'))
 
-    expect(response.status).toEqual(204)
-    
+    expect(response.status).toEqual(200)
   });
 
   afterAll(async () => {
